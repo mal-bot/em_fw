@@ -5,16 +5,16 @@ import views
 
 urls = {
     '/': views.index_view,
-    '/abc/': views.abc_view
+    '/contacts/': views.contacts_view,
 }
 
 
 def front_1(request):
-    request['1'] = '1'
+    request['front_1'] = 'front_1'
 
 
 def front_2(request):
-    request['2'] = '2'
+    request['front_2'] = 'front_2'
 
 
 fronts = [front_1, front_2]
