@@ -1,5 +1,6 @@
 from pprint import pprint
 
+
 class Application:
     def __init__(self, urls: dict, fronts: list) -> None:
         self.urls = urls
@@ -61,3 +62,39 @@ class Application:
             return dict(result)
         else: 
             return {}
+
+    def add_route(self, url: str):
+        def wrapper(view):
+            self.urls[url] = view
+        return wrapper
+
+
+class DebugApplication(Application):
+
+    def __init__(self, urlpatterns, front_controllers):
+        self.application = Application(urlpatterns, front_controllers)
+        super().__init__(urlpatterns, front_controllers)
+
+    def __call__(self, env, start_response):
+        print('DEBUG MODE')
+        print(env)
+        return self.application(env, start_response)
+        # super().__call__(env, start_response)
+    #
+    # def add_route(self, url):
+    #     def inner(view):
+    #         self.urlpatterns[url] = view
+    #         self.application.urlpatterns[url] = view
+    #
+    #     return inner
+
+
+class MockApplication(Application):
+
+    def __init__(self, urlpatterns, front_controllers):
+        self.application = Application(urlpatterns, front_controllers)
+        super().__init__(urlpatterns, front_controllers)
+
+    def __call__(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        return [b'Hello from Mock']

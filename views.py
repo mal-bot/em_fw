@@ -1,4 +1,7 @@
 from em_fw import render
+from own_logging import Logger
+
+logger = Logger('main')
 
 # page controllers
 
