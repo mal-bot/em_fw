@@ -143,6 +143,8 @@ def create_course(request):
         if category_id:
             category = site.find_category_by_id(int(category_id))
             course = site.create_course('record', name, category)
+            course.observers.append(email_notifier)
+            course.observers.append(sms_notifier)
             site.courses.append(course)
         return '200 OK', render('create_course.html', categories=site.categories)
     else:
